@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Jotlr' target in the 'Jotlr' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
