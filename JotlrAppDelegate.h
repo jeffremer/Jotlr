@@ -12,18 +12,20 @@
 @class MAAttachedWindow;
 @interface JotlrAppDelegate : NSObject <NSApplicationDelegate,NSXMLParserDelegate> {
     NSWindow *window;
-	IBOutlet NSMenu *statusMenu;
-	IBOutlet NSMenuItem *noJotsYetItem;
-	IBOutlet NSPanel *jotPanel;
-	IBOutlet NSTextField *jotLabel;
+
 	MAAttachedWindow *attachedWindow;
 	IBOutlet NSView *view;
 	IBOutlet NSButton *linkButton;
 	
 	NSStatusItem *statusItem;
-	NSPasteboard *pasteboard;
-	NSString *currentItem;
+	
+	NSInteger initialChangeCount;
 	NSInteger previousChangeCount;
+	NSPasteboard *pasteboard;
+
+	NSString *currentItem;
+	
+
 	NSMutableData *responseData;
 	
 	NSMutableString *currentProperty;
@@ -31,7 +33,7 @@
 	
 	NSString *currentClip;
 	
-	NSInteger initialChangeCount;
+
 	BOOL shouldCreateJot;
 	
 }

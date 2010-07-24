@@ -65,7 +65,6 @@
 }
 
 - (void) parseJot:(NSData *) jotData {
-	//NSString *result = [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease];	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:jotData];
 	[parser setDelegate:self];
 	[parser setShouldProcessNamespaces:NO];
@@ -170,10 +169,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	NSString *result = [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease];	
-	
 	[self parseJot: responseData];
-	
     [connection release];
 }
 

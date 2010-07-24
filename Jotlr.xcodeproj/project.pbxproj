@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
-		1F2B8C4211FA644000B06BD2 /* raw.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B8C4111FA644000B06BD2 /* raw.png */; };
-		1F2B8C5511FA669E00B06BD2 /* raw-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B8C5311FA669E00B06BD2 /* raw-alt.png */; };
-		1F2B8C5611FA669E00B06BD2 /* raw.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B8C5411FA669E00B06BD2 /* raw.png */; };
 		1F45C08311F8D4670008E20A /* jotlr.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F45C08211F8D4670008E20A /* jotlr.png */; };
 		1F45C32F11F911AD0008E20A /* Jot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45C32E11F911AD0008E20A /* Jot.m */; };
 		1FB6BEF311FA1E7D00A577A4 /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6BEF011FA1E7D00A577A4 /* CustomView.m */; };
@@ -26,9 +23,6 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		1F2B8C4111FA644000B06BD2 /* raw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raw.png; sourceTree = "<group>"; };
-		1F2B8C5311FA669E00B06BD2 /* raw-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raw-alt.png"; sourceTree = "<group>"; };
-		1F2B8C5411FA669E00B06BD2 /* raw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raw.png; sourceTree = "<group>"; };
 		1F45C08211F8D4670008E20A /* jotlr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jotlr.png; sourceTree = "<group>"; };
 		1F45C32D11F911AD0008E20A /* Jot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jot.h; sourceTree = "<group>"; };
 		1F45C32E11F911AD0008E20A /* Jot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Jot.m; sourceTree = "<group>"; };
@@ -123,9 +117,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1F2B8C5311FA669E00B06BD2 /* raw-alt.png */,
-				1F2B8C5411FA669E00B06BD2 /* raw.png */,
-				1F2B8C4111FA644000B06BD2 /* raw.png */,
 				1F45C08211F8D4670008E20A /* jotlr.png */,
 				8D1107310486CEB800E47090 /* Jotlr-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -189,9 +180,6 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				1F45C08311F8D4670008E20A /* jotlr.png in Resources */,
-				1F2B8C4211FA644000B06BD2 /* raw.png in Resources */,
-				1F2B8C5511FA669E00B06BD2 /* raw-alt.png in Resources */,
-				1F2B8C5611FA669E00B06BD2 /* raw.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

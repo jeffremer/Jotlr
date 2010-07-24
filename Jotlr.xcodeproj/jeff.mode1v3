@@ -275,8 +275,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>7</integer>
-									<integer>1</integer>
+									<integer>13</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -330,7 +329,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1F2B8C7111FA682300B06BD2</string>
+										<string>1F2B8C8A11FA6A3800B06BD2</string>
 										<key>history</key>
 										<array>
 											<string>1F45C08611F8D5080008E20A</string>
@@ -340,13 +339,11 @@
 											<string>1F45C33011F9126D0008E20A</string>
 											<string>1FB6BEF611FA1F0200A577A4</string>
 											<string>1F00FF6911FA41B7006FCF30</string>
-											<string>1F2B8C3911FA629A00B06BD2</string>
-											<string>1F2B8C6811FA67CD00B06BD2</string>
-											<string>1F2B8C6911FA67CD00B06BD2</string>
 											<string>1F2B8C6A11FA67CD00B06BD2</string>
 											<string>1F2B8C6B11FA67CD00B06BD2</string>
 											<string>1F2B8C6E11FA67E100B06BD2</string>
-											<string>1F2B8C6F11FA67E100B06BD2</string>
+											<string>1F2B8C7D11FA69EA00B06BD2</string>
+											<string>1F2B8C7E11FA69EA00B06BD2</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -544,7 +541,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1F2B8C6D11FA67CD00B06BD2</string>
+		<string>1F2B8C8B11FA6A3800B06BD2</string>
 		<string>1F2B8B8311FA4CCE00B06BD2</string>
 		<string>1F2B8B8411FA4CCE00B06BD2</string>
 		<string>1C78EAAD065D492600B07095</string>
@@ -583,7 +580,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {801, 339}}</string>
 								<key>RubberWindowFrame</key>
-								<string>1071 318 801 621 0 0 1920 1178 </string>
+								<string>987 321 801 621 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -609,7 +606,7 @@
 								<key>Frame</key>
 								<string>{{0, 344}, {801, 236}}</string>
 								<key>RubberWindowFrame</key>
-								<string>1071 318 801 621 0 0 1920 1178 </string>
+								<string>987 321 801 621 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -641,7 +638,7 @@
 			<key>WindowContentMinSize</key>
 			<string>486 300</string>
 			<key>WindowString</key>
-			<string>1071 318 801 621 0 0 1920 1178 </string>
+			<string>987 321 801 621 0 0 1920 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>1FD88EC311F8CE0600239068</string>
 			<key>WindowToolIsVisible</key>
