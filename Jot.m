@@ -8,7 +8,6 @@
 
 #import "Jot.h"
 
-
 @implementation Jot
 
 @synthesize permalink;

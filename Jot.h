@@ -10,8 +10,7 @@
 
 
 @interface Jot : NSObject {
-	NSString *permalink;
 }
-@property (nonatomic, retain) NSString *permalink;
+@property (copy) NSMutableString *permalink;
 
 @end

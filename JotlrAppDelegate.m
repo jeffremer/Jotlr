@@ -9,15 +9,25 @@
 #import "JotlrAppDelegate.h"
 #import "CustomView.h"
 #import "MAAttachedWindow.h"
+#import "JotParser.h"
 
 @implementation JotlrAppDelegate
 
-@synthesize window, currentProperty, currentJot, currentClip, shouldCreateJot;
+@synthesize window,
+			attachedWindow,
+			view,
+			statusItem,
+			pasteboard,
+			currentClip,
+			shouldCreateJot,
+			initialChangeCount,
+			previousChangeCount,
+			linkButton,
+			responseData;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	pasteboard = [[NSPasteboard generalPasteboard] retain];
 	initialChangeCount = [pasteboard changeCount];
-	shouldCreateJot = TRUE;
 	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(pollPasteboard:) userInfo:nil repeats:YES];
 }
 
@@ -29,9 +39,10 @@
 	NSDictionary *options = [NSDictionary dictionary];
 	NSArray *copiedItems = [pasteboard readObjectsForClasses:classes options:options];
 	if (copiedItems != nil) {
-		currentClip = [copiedItems objectAtIndex:0];
+		self.currentClip = [copiedItems objectAtIndex:0];
+		self.shouldCreateJot = YES;
 	}
-    previousChangeCount = currentChangeCount;
+    self.previousChangeCount = currentChangeCount;
 }
 
 
@@ -43,9 +54,8 @@
 	[statusItem setView:[[[CustomView alloc] initWithFrame:viewFrame controller:self] autorelease]];
 }
 
-- (void) createJot:(NSString *) string {	
-	currentClip = nil;
-	NSString *text = [NSString stringWithFormat:@"jot=%@", [string stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];	
+- (void) createJot {	
+	NSString *text = [NSString stringWithFormat:@"jot=%@", [self.currentClip stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];	
 	NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://j.otdown.com/app/doSave.php"]];
 	[urlRequest setHTTPMethod:@"POST"];
 	[urlRequest setHTTPBody: [text dataUsingEncoding:NSASCIIStringEncoding]];
@@ -60,56 +70,21 @@
 	}
 }
 
-- (void) createJotFromClipBoard {
-	[self createJot:currentClip];
-}
-
 - (void) parseJot:(NSData *) jotData {
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:jotData];
-	[parser setDelegate:self];
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	
-	[parser parse];
-	[parser release];
-	
-	if(self.currentJot && [self.currentJot.permalink length] > 0) {
-		[linkButton setTitle:self.currentJot.permalink];
-	} else {
-		[linkButton setTitle:@"http://j.otdown.com"];
-	}
-	
-	[(CustomView*)[statusItem view] toggleAttachedWindow];
+	JotParser *parser = [[JotParser alloc] initWithData:jotData];
+	Jot *jot = [parser parseJot];
+	self.shouldCreateJot = NO;
+	if([jot.permalink length] > 0) {
+		[linkButton setTitle:jot.permalink];
+	}	
 }
 
 - (void) copyJot:(NSString *) permalink {
-	NSLog(@"Copying %@", self.currentJot.permalink);
-	
 	pasteboard = [NSPasteboard generalPasteboard];
 	[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
 	[pasteboard setData:[permalink dataUsingEncoding: NSASCIIStringEncoding] forType:NSStringPboardType];
 }
-	 
-- (void)toggleAttachedWindowAtPoint:(NSPoint)pt withSender:(id) sender {
-	if(currentClip != nil) {
-		[self createJot:currentClip];
-		return;
-	}
-	// Attach/detach window.
-	if (!attachedWindow) {
-		attachedWindow = [[MAAttachedWindow alloc] initWithView:view 
-												attachedToPoint:pt 
-													   inWindow:nil 
-														 onSide:MAPositionBottom 
-													 atDistance:5.0];
 
-		[attachedWindow makeKeyAndOrderFront:self];
-	} else {
-		[attachedWindow orderOut:self];
-		[attachedWindow release];
-		attachedWindow = nil;
-	}    
-}
 
 - (IBAction) openUrl:(id) sender {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[sender title]]];
@@ -119,41 +94,30 @@
 	[(CustomView *) [statusItem view] reset];
 }
 	 
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-	if (self.currentProperty) {
-        [currentProperty appendString:string];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    if (qName) {
-        elementName = qName;
-    }
-	if(self.currentJot) {
-		if ([elementName isEqualToString:@"permalink"]) {
-			self.currentProperty = [NSMutableString string];
-		}
+- (void)toggleAttachedWindowAtPoint:(NSPoint)pt withSender:(id) sender {
+	if (!attachedWindow) {
+		attachedWindow = [[MAAttachedWindow alloc] initWithView:view 
+												attachedToPoint:pt 
+													   inWindow:nil 
+														 onSide:MAPositionBottom 
+													 atDistance:5.0];
+		[attachedWindow setLevel:NSFloatingWindowLevel];
+		NSLog(@"Making new window");
+	}
+	if(![attachedWindow isVisible]) {
+		[attachedWindow makeKeyAndOrderFront:self];
+		if(self.shouldCreateJot) {
+			[self createJot];
+		}	
 	} else {
-		if([elementName isEqualToString:@"jot"]) {
-			self.currentJot = [[Jot alloc] init];
-		}
-	}
+		[attachedWindow orderOut:self];
+	}    
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if (qName) {
-        elementName = qName;
-    }
-	
-    if (self.currentJot) {
-        if ([elementName isEqualToString:@"permalink"]) {
-            self.currentJot.permalink = self.currentProperty;
-		}
-	}
-	self.currentProperty = nil;
-}
-	
+#pragma mark -
+
+#pragma mark Jot Downloader
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[responseData setLength:0];
 }

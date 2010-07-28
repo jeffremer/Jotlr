@@ -7,42 +7,23 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Jot.h"
 
 @class MAAttachedWindow;
-@interface JotlrAppDelegate : NSObject <NSApplicationDelegate,NSXMLParserDelegate> {
-    NSWindow *window;
 
-	MAAttachedWindow *attachedWindow;
-	IBOutlet NSView *view;
-	IBOutlet NSButton *linkButton;
-	
-	NSStatusItem *statusItem;
-	
-	NSInteger initialChangeCount;
-	NSInteger previousChangeCount;
-	NSPasteboard *pasteboard;
-
-	NSString *currentItem;
-	
-
-	NSMutableData *responseData;
-	
-	NSMutableString *currentProperty;
-	Jot *currentJot;
-	
-	NSString *currentClip;
-	
-
-	BOOL shouldCreateJot;
-	
+@interface JotlrAppDelegate : NSObject <NSApplicationDelegate> {
 }
 
 @property (assign) IBOutlet NSWindow *window;
-@property (nonatomic, retain) NSMutableString *currentProperty;
-@property (nonatomic, retain) Jot *currentJot;
+@property (assign) MAAttachedWindow *attachedWindow;
+@property (assign) IBOutlet NSView *view;
+@property (assign) IBOutlet NSStatusItem *statusItem;
+@property (retain) NSPasteboard *pasteboard;
 @property (copy) NSString *currentClip;
 @property BOOL shouldCreateJot;
+@property NSInteger initialChangeCount;
+@property NSInteger previousChangeCount;
+@property (assign) IBOutlet NSButton *linkButton;
+@property (assign) NSMutableData *responseData;
 
 - (void) createJot:(NSString *) permalink;
 - (void)toggleAttachedWindowAtPoint:(NSPoint)pt withSender:(id)sender;

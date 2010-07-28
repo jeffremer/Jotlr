@@ -97,9 +97,8 @@
 		if([pasteboard canReadObjectForClasses:classArray options:options]) {
 			NSArray *objects = [pasteboard readObjectsForClasses:classArray options:options];
 			NSString *string = [objects objectAtIndex:0];
-			NSLog(@"Dragged String: %@", string);
-			[controller setCurrentClip:nil];
-			[controller createJot:string];
+			controller.currentClip = string;
+			controller.shouldCreateJot = YES;
 		}
 	}	
 	
