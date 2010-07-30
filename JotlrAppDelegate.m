@@ -26,7 +26,7 @@
 			responseData;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	pasteboard = [[NSPasteboard generalPasteboard] retain];
+	pasteboard = [NSPasteboard generalPasteboard];
 	initialChangeCount = [pasteboard changeCount];
 	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(pollPasteboard:) userInfo:nil repeats:YES];
 }

@@ -17,7 +17,7 @@
 @property (assign) MAAttachedWindow *attachedWindow;
 @property (assign) IBOutlet NSView *view;
 @property (assign) IBOutlet NSStatusItem *statusItem;
-@property (retain) NSPasteboard *pasteboard;
+@property (assign) NSPasteboard *pasteboard;
 @property (copy) NSString *currentClip;
 @property BOOL shouldCreateJot;
 @property NSInteger initialChangeCount;
@@ -25,7 +25,7 @@
 @property (assign) IBOutlet NSButton *linkButton;
 @property (assign) NSMutableData *responseData;
 
-- (void) createJot:(NSString *) permalink;
+- (void) createJot;
 - (void)toggleAttachedWindowAtPoint:(NSPoint)pt withSender:(id)sender;
 - (IBAction) openUrl:(id) sender;
 
