@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class MAAttachedWindow;
+@class YRKSpinningProgressIndicator;
 
 @interface JotlrAppDelegate : NSObject <NSApplicationDelegate> {
 }
@@ -23,10 +24,14 @@
 @property NSInteger initialChangeCount;
 @property NSInteger previousChangeCount;
 @property (assign) IBOutlet NSButton *linkButton;
+@property (assign) IBOutlet NSButton *rawButton;
 @property (assign) NSMutableData *responseData;
+@property (assign) IBOutlet YRKSpinningProgressIndicator *progressBar;
 
 - (void) createJot;
 - (void)toggleAttachedWindowAtPoint:(NSPoint)pt withSender:(id)sender;
-- (IBAction) openUrl:(id) sender;
+- (IBAction) openMainUrl:(id) sender;
+- (IBAction) openRawUrl: (id) sender;
+- (IBAction) mailUrl: (id) sender;
 
 @end

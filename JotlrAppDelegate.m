@@ -9,6 +9,7 @@
 #import "JotlrAppDelegate.h"
 #import "CustomView.h"
 #import "MAAttachedWindow.h"
+#import "YRKSpinningProgressIndicator.h"
 #import "JotParser.h"
 
 @implementation JotlrAppDelegate
@@ -23,7 +24,9 @@
 			initialChangeCount,
 			previousChangeCount,
 			linkButton,
-			responseData;
+			rawButton,
+			responseData,
+			progressBar;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	pasteboard = [NSPasteboard generalPasteboard];
@@ -52,9 +55,14 @@
 	NSRect viewFrame = NSMakeRect(0, 0, width, height);
 	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:width] retain];
 	[statusItem setView:[[[CustomView alloc] initWithFrame:viewFrame controller:self] autorelease]];
+	[self.progressBar setForeColor:[NSColor whiteColor]];
+	
 }
 
-- (void) createJot {	
+- (void) createJot {
+	[self.progressBar setHidden:NO];
+	[self.progressBar startAnimation:self];
+	[self.linkButton setEnabled:NO];
 	NSString *text = [NSString stringWithFormat:@"jot=%@", [self.currentClip stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];	
 	NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://j.otdown.com/app/doSave.php"]];
 	[urlRequest setHTTPMethod:@"POST"];
@@ -76,7 +84,10 @@
 	self.shouldCreateJot = NO;
 	if([jot.permalink length] > 0) {
 		[linkButton setTitle:jot.permalink];
-	}	
+		[linkButton setEnabled:YES];
+	}
+	[self.progressBar stopAnimation:self];
+	[self.progressBar setHidden:YES];
 }
 
 - (void) copyJot:(NSString *) permalink {
@@ -85,15 +96,37 @@
 	[pasteboard setData:[permalink dataUsingEncoding: NSASCIIStringEncoding] forType:NSStringPboardType];
 }
 
-
-- (IBAction) openUrl:(id) sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[sender title]]];
+- (void) openUrl:(NSString *) URL {
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL]];
 	[attachedWindow orderOut:self];
 	[attachedWindow release];
 	attachedWindow = nil;
-	[(CustomView *) [statusItem view] reset];
+	[(CustomView *) [statusItem view] reset];	
 }
-	 
+
+- (IBAction) mailUrl:(id) sender {
+	NSArray *chunks = [[self.linkButton title] componentsSeparatedByString:@"/"];
+	if([chunks objectAtIndex:5] != nil) {
+		NSString *shareUrl = [NSString stringWithFormat:@"http://j.otdown.com/jot/%@", [chunks objectAtIndex:5]];	
+		NSString *encodedBody = [NSString stringWithFormat:@"BODY=%@", [shareUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		NSString *encodedURLString = [NSString stringWithFormat:@"mailto:?%@", encodedBody];
+		[self openUrl:encodedURLString];
+	}
+}
+
+- (IBAction) openMainUrl:(id) sender {
+	[(NSButton *)sender setState:NSOnState];
+	[self openUrl:[sender title]];
+}
+
+- (IBAction) openRawUrl:(id) sender {
+	NSArray *chunks = [[self.linkButton title] componentsSeparatedByString:@"/"];
+	if([chunks objectAtIndex:5] != nil) {
+		NSString *rawUrl = [NSString stringWithFormat:@"http://j.otdown.com/jot/%@/raw", [chunks objectAtIndex:5]];
+		[self openUrl:rawUrl];
+	}
+}
+
 - (void)toggleAttachedWindowAtPoint:(NSPoint)pt withSender:(id) sender {
 	if (!attachedWindow) {
 		attachedWindow = [[MAAttachedWindow alloc] initWithView:view 
